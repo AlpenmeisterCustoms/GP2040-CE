@@ -24,7 +24,9 @@ jobs:
     strategy:
       matrix:
         GP2040_BOARDCONFIG: 
-          [Alpenmeister]
+          [
+          #Alpenmeister,
+          TestConfig]
 
     steps:
     #Global Setup
