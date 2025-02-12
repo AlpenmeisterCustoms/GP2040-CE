@@ -39,6 +39,10 @@
 #define GPIO_PIN_26 GpioAction::BUTTON_PRESS_R3 
 #define GPIO_PIN_27 GpioAction::BUTTON_PRESS_R3 
 
+// Setting GPIO pins to assigned by add-on
+//
+#define GPIO_PIN_00 GpioAction::ASSIGNED_TO_ADDON
+
 // Keyboard Mapping Configuration
 //                                            // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
 #define KEY_DPAD_UP     HID_KEY_ARROW_UP      // UP     | UP     | UP      | UP       | UP     | UP     |
