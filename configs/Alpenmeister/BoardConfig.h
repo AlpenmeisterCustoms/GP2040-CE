@@ -9,6 +9,6 @@
 #include "enums.pb.h"
 #include "class/hid/hid.h"
 
-#define BOARD_CONFIG_LABEL "Alpenmeister"
+#define BOARD_CONFIG_LABEL "Open_Core0"
 
 #endif
