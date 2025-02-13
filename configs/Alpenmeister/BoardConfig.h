@@ -12,24 +12,24 @@
 #define BOARD_CONFIG_LABEL "Alpenmeister"
 
 // Main pin mapping Configuration
-//
-#define GPIO_PIN_01 GpioAction::BUTTON_PRESS_S2
-#define GPIO_PIN_02 GpioAction::BUTTON_PRESS_L2
-#define GPIO_PIN_03 GpioAction::BUTTON_PRESS_UP
-#define GPIO_PIN_04 GpioAction::BUTTON_PRESS_L3
-#define GPIO_PIN_05 GpioAction::BUTTON_PRESS_L3
-#define GPIO_PIN_06 GpioAction::BUTTON_PRESS_Left
-#define GPIO_PIN_07 GpioAction::BUTTON_PRESS_Left
-#define GPIO_PIN_08 GpioAction::BUTTON_PRESS_Down
-#define GPIO_PIN_09 GpioAction::BUTTON_PRESS_Down
-#define GPIO_PIN_10 GpioAction::BUTTON_PRESS_Right
-#define GPIO_PIN_11 GpioAction::BUTTON_PRESS_Right
-#define GPIO_PIN_12 GpioAction::BUTTON_PRESS_L3
+//                                                  // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
+#define GPIO_PIN_01 GpioAction::BUTTON_PRESS_S2     // S2     | Start  | Plus    | Start    | 10     | Start  |
+#define GPIO_PIN_02 GpioAction::BUTTON_PRESS_L2     // L2     | LT     | ZL      | L2       | 7      | K4     |
+#define GPIO_PIN_03 GpioAction::BUTTON_PRESS_UP     // UP     | UP     | UP      | UP       | UP     | UP     |
+#define GPIO_PIN_04 GpioAction::BUTTON_PRESS_L3     // L3     | LS     | LS      | L3       | 11     | LS     |
+#define GPIO_PIN_05 GpioAction::BUTTON_PRESS_L3     // L3     | LS     | LS      | L3       | 11     | LS     |
+#define GPIO_PIN_06 GpioAction::BUTTON_PRESS_LEFT
+#define GPIO_PIN_07 GpioAction::BUTTON_PRESS_LEFT
+#define GPIO_PIN_08 GpioAction::BUTTON_PRESS_DOWN
+#define GPIO_PIN_09 GpioAction::BUTTON_PRESS_DOWN
+#define GPIO_PIN_10 GpioAction::BUTTON_PRESS_RIGHT
+#define GPIO_PIN_11 GpioAction::BUTTON_PRESS_RIGHT
+#define GPIO_PIN_12 GpioAction::BUTTON_PRESS_L3     // L3     | LS     | LS      | L3       | 11     | LS     |
 #define GPIO_PIN_13 GpioAction::BUTTON_PRESS_L1
 #define GPIO_PIN_16 GpioAction::BUTTON_PRESS_A1
 #define GPIO_PIN_17 GpioAction::BUTTON_PRESS_A2
-#define GPIO_PIN_18 GpioAction::BUTTON_PRESS_S1
-#define GPIO_PIN_19 GpioAction::BUTTON_PRESS_S2
+#define GPIO_PIN_18 GpioAction::BUTTON_PRESS_S1     // S1     | Back   | Minus   | Select   | 9      | Coin   |
+#define GPIO_PIN_19 GpioAction::BUTTON_PRESS_S2     // S2     | Start  | Plus    | Start    | 10     | Start  |
 #define GPIO_PIN_20 GpioAction::BUTTON_PRESS_B1
 #define GPIO_PIN_21 GpioAction::BUTTON_PRESS_B3
 #define GPIO_PIN_22 GpioAction::BUTTON_PRESS_B2
