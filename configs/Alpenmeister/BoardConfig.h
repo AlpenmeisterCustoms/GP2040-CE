@@ -68,4 +68,14 @@
 #define KEY_BUTTON_A2   HID_KEY_F2            // A2     | ~      | Capture | ~        | 14     | ~      |
 #define KEY_BUTTON_FN   -1                    // Hotkey Function                                        |
 
+// LED Stuff
+//
+#define BOARD_LEDS_PIN 0
+#define LED_BRIGHTNESS_MAXIMUM 100
+#define LED_BRIGHTNESS_STEPS 5
+#define LED_FORMAT LED_FORMAT_GRB
+#define LEDS_PER_PIXEL 14
+#define LEDS_BASE_ANIMATION_INDEX 1
+#define LEDS_BUTTON_A2 1
+
 #endif
