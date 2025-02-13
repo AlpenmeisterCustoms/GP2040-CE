@@ -65,33 +65,15 @@
 #define GPIO_PIN_14 GpioAction::BUTTON_PRESS_TURBO
 #define TURBO_LED_PIN 15
 
-#define BOARD_LEDS_PIN 28
+// LED Stuff
+//
+#define BOARD_LEDS_PIN 0
 #define LED_BRIGHTNESS_MAXIMUM 100
 #define LED_BRIGHTNESS_STEPS 5
 #define LED_FORMAT LED_FORMAT_GRB
-#define LEDS_PER_PIXEL 1
-
-#define LEDS_DPAD_LEFT   0
-#define LEDS_DPAD_DOWN   1
-#define LEDS_DPAD_RIGHT  2
-#define LEDS_DPAD_UP     3
-#define LEDS_BUTTON_B3   4
-#define LEDS_BUTTON_B4   5
-#define LEDS_BUTTON_R1   6
-#define LEDS_BUTTON_L1   7
-#define LEDS_BUTTON_B1   8
-#define LEDS_BUTTON_B2   9
-#define LEDS_BUTTON_R2   10
-#define LEDS_BUTTON_L2   11
-#define LEDS_BUTTON_A1   12
-#define LEDS_BUTTON_L3   13
-#define LEDS_BUTTON_R3   14
-#define LEDS_BUTTON_A2   15
-
-#define HAS_I2C_DISPLAY 1
-#define I2C0_ENABLED 1
-#define I2C0_PIN_SDA 0
-#define I2C0_PIN_SCL 1
+#define LEDS_PER_PIXEL 14
+#define LEDS_BASE_ANIMATION_INDEX 1
+#define LEDS_BUTTON_A2 1
 
 // Display Stuff
 //
