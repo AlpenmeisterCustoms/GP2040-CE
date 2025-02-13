@@ -74,9 +74,20 @@
 #define LED_BRIGHTNESS_MAXIMUM 100
 #define LED_BRIGHTNESS_STEPS 5
 #define LED_FORMAT LED_FORMAT_GRB
-#define LEDS_PER_PIXEL 14
+#define LEDS_PER_PIXEL 1
 #define LEDS_BASE_ANIMATION_INDEX 1
-#define LEDS_BUTTON_A2 1
+#define LEDS_DPAD_UP     0
+#define LEDS_BUTTON_L2   1
+#define LEDS_DPAD_LEFT   2
+#define LEDS_DPAD_DOWN   3
+#define LEDS_DPAD_RIGHT  4
+#define LEDS_BUTTON_L1   5
+#define LEDS_BUTTON_R1   6
+#define LEDS_BUTTON_B3   7
+#define LEDS_BUTTON_B1   8
+#define LEDS_BUTTON_B2   9
+#define LEDS_BUTTON_R2   10
+#define LEDS_BUTTON_B4   11
 
 // Display Stuff
 //
