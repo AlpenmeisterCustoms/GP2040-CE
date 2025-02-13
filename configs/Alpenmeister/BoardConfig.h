@@ -93,6 +93,17 @@
 #define I2C0_PIN_SDA 0
 #define I2C0_PIN_SCL 1
 
+// Display Stuff
+//
+#define HAS_I2C_DISPLAY 1
+#define I2C1_ENABLED 1
+#define DISPLAY_I2C_BLOCK i2c1
+#define I2C_PIN_SDA 14
+#define I2C_PIN_SCL 15
+#define DISPLAY_FLIP 0
+#define SPLASH_MODE SPLASH_MODE_STATIC
+#define SPLASH_DURATION 3
+
 // USB Passthrough Stuff
 //
 #define USB_PERIPHERAL_ENABLED 1
