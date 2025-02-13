@@ -93,6 +93,12 @@
 #define I2C0_PIN_SDA 0
 #define I2C0_PIN_SCL 1
 
+// USB Passthrough Stuff
+//
+#define USB_PERIPHERAL_ENABLED 1
+#define USB_PERIPHERAL_PIN_DPLUS 29
+#define USB_PERIPHERAL_PIN_ORDER -1
+
 // Button Stuff
 //
 #define DEFAULT_SOCD_MODE SOCD_MODE_NEUTRAL
