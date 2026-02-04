@@ -17,6 +17,7 @@ on:
           - ""
           - Alpenmeister
           - AlpenmeisterS
+          - MeisterboardZero
 
 env:
   BUILD_TYPE: Release
