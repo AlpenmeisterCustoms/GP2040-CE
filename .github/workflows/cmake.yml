@@ -19,6 +19,7 @@ on:
           - AlpenmeisterS
           - AlpenmeisterTE
           - MeisterboardZero
+          - MeisterConverter
 
 env:
   BUILD_TYPE: Release
@@ -34,7 +35,7 @@ jobs:
     runs-on: ubuntu-22.04
     strategy:
       matrix:
-        GP2040_BOARDCONFIG: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.board_config != '' && fromJSON(format('["{0}"]', github.event.inputs.board_config)) || fromJSON('["Alpenmeister", "AlpenmeisterS", "AlpenmeisterTE", "MeisterboardZero"]') }}
+        GP2040_BOARDCONFIG: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.board_config != '' && fromJSON(format('["{0}"]', github.event.inputs.board_config)) || fromJSON('["Alpenmeister", "AlpenmeisterS", "AlpenmeisterTE", "MeisterConverter", "MeisterboardZero"]') }}
     steps:
       - name: Setup cmake
         uses: jwlawson/actions-setup-cmake@v2
