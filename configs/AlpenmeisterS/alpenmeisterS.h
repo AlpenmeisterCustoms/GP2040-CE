@@ -10,8 +10,8 @@
 // -----------------------------------------------------
 
 
-#ifndef _BOARDS_ALPENMEISTER_H
-#define _BOARDS_ALPENMEISTER_H
+#ifndef _BOARDS_ALPENMEISTERS_H
+#define _BOARDS_ALPENMEISTERS_H
 
 // For board detection
 #define ALPENMEISTER
