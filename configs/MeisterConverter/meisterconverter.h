@@ -10,8 +10,8 @@
 // -----------------------------------------------------
 
 
-#ifndef _BOARDS_MEISTERBOARDZERO_H
-#define _BOARDS_MEISTERBOARDZERO_H
+#ifndef _BOARDS_MEISTERCONVERTER_H
+#define _BOARDS_MEISTERCONVERTER_H
 
 // For board detection
 #define MEISTERBOARDZERO
