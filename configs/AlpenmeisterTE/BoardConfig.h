@@ -11,7 +11,7 @@
 
 #define BOARD_CONFIG_LABEL "Alpenmeister"
 
-// Main pin mapping Configuration
+// Main Pin Mapping Configuration
 //                                                  // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
 #define GPIO_PIN_01 GpioAction::BUTTON_PRESS_S2     // S2     | Start  | Plus    | Start    | 10     | Start  |
 #define GPIO_PIN_02 GpioAction::BUTTON_PRESS_A1     // A1     | Guide  | Home    | PS       | 13     | ~      |
@@ -69,9 +69,33 @@
 #define KEY_BUTTON_A2   HID_KEY_F2            // A2     | ~      | Capture | ~        | 14     | ~      |
 #define KEY_BUTTON_FN   -1                    // Hotkey Function                                        |
 
+
+// Hall Effect Button Mapping
+//
+
+#define HETRIGGER_DEFAULT_IDLE 2400
+#define HETRIGGER_DEFAULT_ACTIVE 3000
+#define HETRIGGER_DEFAULT_MAX 3600
+
+#define HETRIGGER_HE0_ACTION GpioAction::BUTTON_PRESS_L3
+#define HETRIGGER_HE1_ACTION GpioAction::BUTTON_PRESS_R1
+#define HETRIGGER_HE2_ACTION GpioAction::BUTTON_PRESS_B4
+#define HETRIGGER_HE3_ACTION GpioAction::BUTTON_PRESS_B3
+#define HETRIGGER_HE4_ACTION GpioAction::BUTTON_PRESS_R2
+#define HETRIGGER_HE5_ACTION GpioAction::BUTTON_PRESS_B2
+#define HETRIGGER_HE6_ACTION GpioAction::BUTTON_PRESS_B1
+#define HETRIGGER_HE7_ACTION GpioAction::BUTTON_PRESS_L1
+
+#define HETRIGGER_HE?_ACTION GpioAction::BUTTON_PRESS_L2
+#define HETRIGGER_HE?_ACTION GpioAction::BUTTON_PRESS_UP
+#define HETRIGGER_HE?_ACTION GpioAction::BUTTON_PRESS_LEFT
+#define HETRIGGER_HE?_ACTION GpioAction::BUTTON_PRESS_DOWN
+#define HETRIGGER_HE?_ACTION GpioAction::BUTTON_PRESS_RIGHT
+#define HETRIGGER_HE?_ACTION GpioAction::BUTTON_PRESS_R3
+
 // LED Stuff
 //
-#define BOARD_LEDS_PIN 0
+//#define BOARD_LEDS_PIN 0
 //#define BUTTON_LAYOUT BUTTON_LAYOUT_STICKLESS
 #define LED_BRIGHTNESS_MAXIMUM 20
 #define LED_BRIGHTNESS_STEPS 5
