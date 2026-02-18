@@ -9,7 +9,37 @@
 #include "enums.pb.h"
 #include "class/hid/hid.h"
 
-#define BOARD_CONFIG_LABEL "Alpenmeister"
+#define BOARD_CONFIG_LABEL "AlpenmeisterTE"
+
+// Hall Effect Button Configuration & Mapping
+//
+#define HETRIGGER_ENABLED 1
+#define HETRIGGER_S0_PIN 4
+#define HETRIGGER_S1_PIN 5
+#define HETRIGGER_S2_PIN 6
+#define HETRIGGER_ADC0 26
+#define HETRIGGER_ADC1 27
+#define HETRIGGER_ADC2 28
+
+#define HETRIGGER_DEFAULT_IDLE 2400
+#define HETRIGGER_DEFAULT_ACTIVE 3000
+#define HETRIGGER_DEFAULT_MAX 3600
+
+#define HETRIGGER_HE0_ACTION GpioAction::BUTTON_PRESS_R3
+#define HETRIGGER_HE1_ACTION GpioAction::BUTTON_PRESS_R1
+#define HETRIGGER_HE2_ACTION GpioAction::BUTTON_PRESS_B4
+#define HETRIGGER_HE3_ACTION GpioAction::BUTTON_PRESS_B3
+#define HETRIGGER_HE4_ACTION GpioAction::BUTTON_PRESS_L1
+#define HETRIGGER_HE5_ACTION GpioAction::BUTTON_PRESS_R2
+#define HETRIGGER_HE6_ACTION GpioAction::BUTTON_PRESS_B2
+#define HETRIGGER_HE7_ACTION GpioAction::BUTTON_PRESS_B1
+
+#define HETRIGGER_HE8_ACTION GpioAction::BUTTON_PRESS_L2
+#define HETRIGGER_HE9_ACTION GpioAction::BUTTON_PRESS_UP
+#define HETRIGGER_HE10_ACTION GpioAction::BUTTON_PRESS_LEFT
+#define HETRIGGER_HE11_ACTION GpioAction::BUTTON_PRESS_DOWN
+#define HETRIGGER_HE12_ACTION GpioAction::BUTTON_PRESS_RIGHT
+#define HETRIGGER_HE13_ACTION GpioAction::BUTTON_PRESS_L3
 
 // Main Pin Mapping Configuration
 //                                                  // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
@@ -68,37 +98,6 @@
 #define KEY_BUTTON_A1   HID_KEY_9             // A1     | Guide  | Home    | PS       | 13     | ~      |
 #define KEY_BUTTON_A2   HID_KEY_F2            // A2     | ~      | Capture | ~        | 14     | ~      |
 #define KEY_BUTTON_FN   -1                    // Hotkey Function                                        |
-
-
-// Hall Effect Button Mapping
-//
-#define HETRIGGER_ENABLED 1
-#define HETRIGGER_S0_PIN 5
-#define HETRIGGER_S1_PIN 7
-#define HETRIGGER_S2_PIN 8
-#define HETRIGGER_ADC0 26
-#define HETRIGGER_ADC1 27
-#define HETRIGGER_ADC2 28
-
-#define HETRIGGER_DEFAULT_IDLE 2400
-#define HETRIGGER_DEFAULT_ACTIVE 3000
-#define HETRIGGER_DEFAULT_MAX 3600
-
-#define HETRIGGER_HE0_ACTION GpioAction::BUTTON_PRESS_L3
-#define HETRIGGER_HE1_ACTION GpioAction::BUTTON_PRESS_R1
-#define HETRIGGER_HE2_ACTION GpioAction::BUTTON_PRESS_B4
-#define HETRIGGER_HE3_ACTION GpioAction::BUTTON_PRESS_B3
-#define HETRIGGER_HE4_ACTION GpioAction::BUTTON_PRESS_R2
-#define HETRIGGER_HE5_ACTION GpioAction::BUTTON_PRESS_B2
-#define HETRIGGER_HE6_ACTION GpioAction::BUTTON_PRESS_B1
-#define HETRIGGER_HE7_ACTION GpioAction::BUTTON_PRESS_L1
-
-#define HETRIGGER_HE8_ACTION GpioAction::BUTTON_PRESS_L2
-#define HETRIGGER_HE9_ACTION GpioAction::BUTTON_PRESS_UP
-#define HETRIGGER_HE10_ACTION GpioAction::BUTTON_PRESS_LEFT
-#define HETRIGGER_HE11_ACTION GpioAction::BUTTON_PRESS_DOWN
-#define HETRIGGER_HE12_ACTION GpioAction::BUTTON_PRESS_RIGHT
-#define HETRIGGER_HE13_ACTION GpioAction::BUTTON_PRESS_R3
 
 // LED Stuff
 //
