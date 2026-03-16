@@ -14,7 +14,7 @@
 #define _BOARDS_MEISTERCONVERTER_H
 
 // For board detection
-#define MEISTERBOARDZERO
+#define MEISTERCONVERTER
 
 //For crappy crystal
 #ifndef PICO_XOSC_STARTUP_DELAY_MULTIPLIER
