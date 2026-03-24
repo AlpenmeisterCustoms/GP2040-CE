@@ -22,8 +22,9 @@
 #endif
 
 // no PICO_DEFAULT_WS2812_PIN
-
+#ifndef PICO_DEFAULT_LED_PIN
 #define PICO_DEFAULT_LED_PIN 18
+#endif
 
 // --- I2C ---
 #ifndef PICO_DEFAULT_I2C
