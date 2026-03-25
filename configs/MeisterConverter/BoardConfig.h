@@ -95,8 +95,8 @@
 // USB Passthrough Stuff
 //
 #define USB_PERIPHERAL_ENABLED 1
-#define USB_PERIPHERAL_PIN_DPLUS 25
-#define USB_PERIPHERAL_PIN_ORDER -1
+#define USB_PERIPHERAL_PIN_DPLUS 24
+//#define USB_PERIPHERAL_PIN_ORDER -1
 
 // Button Stuff
 //
