@@ -22,6 +22,7 @@
 #endif
 
 // no PICO_DEFAULT_WS2812_PIN
+#define BOARD_LED_PIN 18
 #ifndef PICO_DEFAULT_LED_PIN
 #define PICO_DEFAULT_LED_PIN 18
 #endif
