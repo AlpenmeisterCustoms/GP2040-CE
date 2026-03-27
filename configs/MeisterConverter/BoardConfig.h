@@ -11,7 +11,6 @@
 
 #define BOARD_CONFIG_LABEL "meisterconverter"
 
-#define BOARD_LED_PIN 18
 
 // Main pin mapping Configuration
 //                                                  // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
@@ -71,6 +70,7 @@
 // LED Stuff
 //
 #define BOARD_LEDS_PIN -1
+#define BOARD_LED_PIN 18
 #define BUTTON_LAYOUT BUTTON_LAYOUT_STICKLESS
 #define LED_BRIGHTNESS_MAXIMUM 100
 #define LED_BRIGHTNESS_STEPS 5
