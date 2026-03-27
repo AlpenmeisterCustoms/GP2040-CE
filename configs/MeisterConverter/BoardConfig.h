@@ -11,6 +11,8 @@
 
 #define BOARD_CONFIG_LABEL "meisterconverter"
 
+#define BOARD_LED_PIN 18
+
 // Main pin mapping Configuration
 //                                                  // GP2040 | Xinput | Switch  | PS3/4/5  | Dinput | Arcade |
 #define GPIO_PIN_00 GpioAction::BUTTON_PRESS_S1     // S1     | Back   | Minus   | Select   | 9      | Coin   |
