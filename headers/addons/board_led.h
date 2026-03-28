@@ -20,7 +20,7 @@
 // BoardLed Module Name
 #define OnBoardLedName "OnBoardLed"
 
-#define BOARD_LED_PIN 25
+#define BOARD_LED_PIN 18
 #define BLINK_INTERVAL_USB_UNMOUNTED 200
 #define BLINK_INTERVAL_CONFIG_MODE 1000
 
