@@ -70,7 +70,6 @@
 // LED Stuff
 //
 #define BOARD_LEDS_PIN -1
-#define BOARD_LED_PIN 18
 #define BUTTON_LAYOUT BUTTON_LAYOUT_STICKLESS
 #define LED_BRIGHTNESS_MAXIMUM 100
 #define LED_BRIGHTNESS_STEPS 5
@@ -82,6 +81,7 @@
 //#define CASE_RGB_INDEX 0
 //#define CASE_RGB_COUNT 16
 //#define CASE_RGB_COLOR ColorWhite
+#define BOARD_LED_PIN PICO_DEFAULT_LED_PIN
 
 // Display Stuff
 //
