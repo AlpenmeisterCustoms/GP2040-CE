@@ -18,7 +18,7 @@
 #define INPUT_HISTORY_MAX_MODES 12
 
 // Static to ensure memory is never doubled
-static const char * displayNames[INPUT_HISTORY_MAX_MODES][INPUT_HISTORY_MAX_INPUTS] = {
+static const char * displayNames[INPUT_HISTORY_MAX_MODES][INPUT_HISTORY_MAX_INPUTS] __attribute__((unused)) = {
     {		// PS3 - 0
             CHAR_UP, CHAR_DOWN, CHAR_LEFT, CHAR_RIGHT,
             CHAR_UL, CHAR_UR, CHAR_DL, CHAR_DR,
@@ -121,11 +121,15 @@ class ButtonLayoutScreen : public GPScreen {
     private:
         // new layout methods
         GPLever* addLever(uint16_t startX, uint16_t startY, uint16_t sizeX, uint16_t sizeY, uint16_t strokeColor, uint16_t fillColor, uint16_t inputType);
-        GPButton* addButton(uint16_t startX, uint16_t startY, uint16_t sizeX, uint16_t sizeY, uint16_t strokeColor, uint16_t fillColor, int16_t inputMask = -1);
+        GPButton* addButton(uint16_t startX, uint16_t startY, uint16_t sizeX, uint16_t sizeY, uint16_t strokeColor, uint16_t fillColor, int32_t inputMask = -1);
         GPSprite* addSprite(uint16_t startX, uint16_t startY, uint16_t sizeX, uint16_t sizeY);
         GPShape* addShape(uint16_t startX, uint16_t startY, uint16_t sizeX, uint16_t sizeY, uint16_t strokeColor, uint16_t fillColor);
         GPWidget* pushElement(GPButtonLayout element);
         void generateHeader();
+
+        void updateCustomHeaders();
+        void checkLEDCycleParams();
+        void addCustomHeader(std::string newStr, std::string identifier);
 
         const std::map<uint16_t, uint16_t> displayModeLookup = {
             {INPUT_MODE_PS3, 0},
@@ -144,37 +148,57 @@ class ButtonLayoutScreen : public GPScreen {
             {INPUT_MODE_ASTRO, 9},
             {INPUT_MODE_XBOXORIGINAL, 10},
             {INPUT_MODE_GENERIC, 11},
+            {INPUT_MODE_SINPUT, 12},
         };
 
-        Gamepad* gamepad;
-        InputMode inputMode;
-        std::string statusBar;
-        std::string footer;
+        Gamepad* gamepad = nullptr;
+        InputMode inputMode = INPUT_MODE_XINPUT;
+        std::string statusBar{};
+        std::string footer{};
 
         bool isInputHistoryEnabled = false;
         uint16_t inputHistoryX = 0;
         uint16_t inputHistoryY = 0;
         size_t inputHistoryLength = 0;
-        std::string historyString;
-        std::deque<std::string> inputHistory;
-        std::array<bool, INPUT_HISTORY_MAX_INPUTS> lastInput;
+        std::string historyString{};
+        std::deque<std::string> inputHistory{};
+        std::array<bool, INPUT_HISTORY_MAX_INPUTS> lastInput{};
 
-        bool bannerDisplay;
+        bool bannerDisplay = false;
         uint8_t bannerDelay = 2;
+        float inbetweenBannerDelay = 0.3f;
         int bannerDelayStart = 0;
-        std::string bannerMessage;
+        bool inbetweenBanners = false;
+
+        std::string bannerMessage{};
+
+        std::deque<std::string> bannerString;
+        std::deque<std::string> bannerIdentifier;
+
+        int8_t gamePadProfileNumber = -2;
+        int8_t prevGamepadProfileNumber = -2;
+        
+        int8_t prevLEDAnimationProfileNumber = -2;
+ 
+        int8_t prevLEDBaseCycleNumber = -1;
+        int8_t prevLEDBaseCaseCycleNumber = -1;
+        int8_t prevLEDBasePressedCycleNumber = -1;
+ 
         uint16_t prevButtonState = 0;
         uint8_t prevLayoutLeft = 0;
         uint8_t prevLayoutRight = 0;
+        
         uint8_t profileNumber = 0;
         uint8_t prevProfileNumber = 0;
-        ButtonLayoutParamsLeft prevLeftOptions;
-        ButtonLayoutParamsRight prevRightOptions;
-        ButtonLayoutOrientation prevOrientation;
+        
+        ButtonLayoutParamsLeft prevLeftOptions{};
+        ButtonLayoutParamsRight prevRightOptions{};
+        ButtonLayoutOrientation prevOrientation{};
+        uint32_t prevCustomLayoutHash = 0;
 
         bool hasTurboAssigned = false;
 
-        bool macroEnabled;
+        bool macroEnabled = false;
 
         bool showInputMode = true;
         bool showTurboMode = true;
@@ -182,11 +206,13 @@ class ButtonLayoutScreen : public GPScreen {
         bool showSocdMode = true;
         bool showMacroMode = true;
         bool showProfileMode = false;
+        bool showProfileBanner = false;
         void trim(std::string &s);
 
         uint16_t map(uint16_t x, uint16_t in_min, uint16_t in_max, uint16_t out_min, uint16_t out_max);
         void processInputHistory();
         bool compareCustomLayouts();
+        uint32_t getCustomLayoutHash();
         bool pressedUp();
         bool pressedDown();
         bool pressedLeft();

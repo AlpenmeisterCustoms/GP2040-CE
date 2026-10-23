@@ -21,6 +21,11 @@ import { hexToInt } from '../Services/Utilities';
 import { InputModeDeviceType, PS4ControllerType } from '@proto/enums';
 
 import './SettingsPage.scss';
+import { INPUT_MODE_OPTIONS as INPUT_MODES } from '../Data/InputBootModes';
+import {
+	useBootModeStore,
+	useBootModeStoreActions,
+} from '../Store/useBootModesStore';
 
 const SHA256 = (ascii) => {
 	function rightRotate(value, amount) {
@@ -101,7 +106,7 @@ const SHA256 = (ascii) => {
 								(rightRotate(w15, 7) ^ rightRotate(w15, 18) ^ (w15 >>> 3)) + // s0
 								w[i - 7] +
 								(rightRotate(w2, 17) ^ rightRotate(w2, 19) ^ (w2 >>> 10))) | // s1
-						  0);
+							0);
 			// This is only used once, so *could* be moved below, but it only saves 4 bytes and makes things unreadble
 			const temp2 =
 				(rightRotate(a, 2) ^ rightRotate(a, 13) ^ rightRotate(a, 22)) + // S0
@@ -124,84 +129,6 @@ const SHA256 = (ascii) => {
 	}
 	return result;
 };
-
-const INPUT_MODES = [
-	{
-		labelKey: 'input-mode-options.xinput',
-		value: 0,
-		group: 'primary',
-		optional: ['usb'],
-		authentication: ['none', 'usb'],
-		deviceTypes: [
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GAMEPAD,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_WHEEL,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GUITAR,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_DRUM,
-		],
-	},
-	{
-		labelKey: 'input-mode-options.xbone',
-		value: 5,
-		group: 'primary',
-		required: ['usb'],
-	},
-	{
-		labelKey: 'input-mode-options.xboxoriginal', 
-		value: 12, 
-		group: 'primary',
-	},
-	{ 
-		labelKey: 'input-mode-options.ps3', 
-		value: 2, 
-		group: 'primary',
-		deviceTypes: [
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GAMEPAD,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GAMEPAD_ALT,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_WHEEL,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GUITAR,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_DRUM,
-		],
-	},
-	{
-		labelKey: 'input-mode-options.ps4',
-		value: 4,
-		group: 'primary',
-		optional: ['usb'],
-		authentication: ['none', 'key', 'usb'],
-		deviceTypes: [
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GAMEPAD,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_WHEEL,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_HOTAS,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GUITAR,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_DRUM,
-		],
-	},
-	{
-		labelKey: 'input-mode-options.ps5',
-		value: 13,
-		group: 'primary',
-		optional: ['usb'],
-		authentication: ['none', 'usb'],
-		deviceTypes: [
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GAMEPAD,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_ARCADE_STICK,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_WHEEL,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_HOTAS,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_GUITAR,
-			InputModeDeviceType.INPUT_MODE_DEVICE_TYPE_DRUM,
-		],
-	},
-	{ labelKey: 'input-mode-options.nintendo-switch', value: 1, group: 'primary', },
-	{ labelKey: 'input-mode-options.nintendo-switch-pro', value: 15, group: 'primary' },
-	{ labelKey: 'input-mode-options.keyboard', value: 3, group: 'primary' },
-	{ labelKey: 'input-mode-options.generic', value: 14, group: 'primary' },
-	{ labelKey: 'input-mode-options.mdmini', value: 6, group: 'mini' },
-	{ labelKey: 'input-mode-options.neogeo', value: 7, group: 'mini' },
-	{ labelKey: 'input-mode-options.pcemini', value: 8, group: 'mini' },
-	{ labelKey: 'input-mode-options.egret', value: 9, group: 'mini' },
-	{ labelKey: 'input-mode-options.astro', value: 10, group: 'mini' },
-	{ labelKey: 'input-mode-options.psclassic', value: 11, group: 'mini' },
-];
 
 const INPUT_BOOT_MODES = [
 	{ labelKey: 'input-mode-options.none', value: -1, group: 'primary' },
@@ -227,11 +154,22 @@ const INPUT_BOOT_MODES = [
 		optional: ['usb'],
 	},
 	{
+		labelKey: 'input-mode-options.p5general',
+		value: 16,
+		group: 'primary',
+		optional: ['usb'],
+		authentication: ['usb'],
+	},
+	{
 		labelKey: 'input-mode-options.nintendo-switch',
 		value: 1,
 		group: 'primary',
 	},
-	{ labelKey: 'input-mode-options.nintendo-switch-pro', value: 15, group: 'primary' },
+	{
+		labelKey: 'input-mode-options.nintendo-switch-pro',
+		value: 15,
+		group: 'primary',
+	},
 	{ labelKey: 'input-mode-options.keyboard', value: 3, group: 'primary' },
 	{ labelKey: 'input-mode-options.generic', value: 14, group: 'primary' },
 	{ labelKey: 'input-mode-options.mdmini', value: 6, group: 'mini' },
@@ -240,6 +178,7 @@ const INPUT_BOOT_MODES = [
 	{ labelKey: 'input-mode-options.egret', value: 9, group: 'mini' },
 	{ labelKey: 'input-mode-options.astro', value: 10, group: 'mini' },
 	{ labelKey: 'input-mode-options.psclassic', value: 11, group: 'mini' },
+	{ labelKey: 'input-mode-options.sinput', value: 17, group: 'primary' },
 ];
 
 const INPUT_MODE_GROUPS = [
@@ -308,6 +247,8 @@ const HOTKEY_ACTIONS = [
 	{ labelKey: 'hotkey-actions.r3-button', value: 20 },
 	{ labelKey: 'hotkey-actions.touchpad-button', value: 21 },
 	{ labelKey: 'hotkey-actions.reboot-default', value: 22 },
+	{ labelKey: 'hotkey-actions.reboot-webconfig', value: 86 },
+	{ labelKey: 'hotkey-actions.reboot-usb', value: 87 },
 	{ labelKey: 'hotkey-actions.save-config', value: 43 },
 	{ labelKey: 'hotkey-actions.b1-button', value: 23 },
 	{ labelKey: 'hotkey-actions.b2-button', value: 24 },
@@ -337,6 +278,14 @@ const HOTKEY_ACTIONS = [
 	{ labelKey: 'hotkey-actions.menu-nav-back', value: 49 },
 	{ labelKey: 'hotkey-actions.menu-nav-toggle', value: 50 },
 	{ labelKey: 'hotkey-actions.focus-mode-toggle', value: 77 },
+	{ labelKey: 'hotkey-actions.ls-up', value: 78 },
+	{ labelKey: 'hotkey-actions.ls-down', value: 79 },
+	{ labelKey: 'hotkey-actions.ls-left', value: 80 },
+	{ labelKey: 'hotkey-actions.ls-right', value: 81 },
+	{ labelKey: 'hotkey-actions.rs-up', value: 82 },
+	{ labelKey: 'hotkey-actions.rs-down', value: 83 },
+	{ labelKey: 'hotkey-actions.rs-left', value: 84 },
+	{ labelKey: 'hotkey-actions.rs-right', value: 85 },
 ];
 
 const FORCED_SETUP_MODES = [
@@ -415,7 +364,11 @@ const schema = yup.object().shape({
 	inputDeviceType: yup
 		.number()
 		.required()
-		.oneOf(Object.keys(InputModeDeviceType).filter(key => isNaN(Number(key))).map((o) => InputModeDeviceType[o]))
+		.oneOf(
+			Object.keys(InputModeDeviceType)
+				.filter((key) => isNaN(Number(key)))
+				.map((o) => InputModeDeviceType[o]),
+		)
 		.label('Input Mode Device Type'),
 	socdMode: yup
 		.number()
@@ -538,7 +491,8 @@ const FormContext = ({ setButtonLabels, setKeyMappings }) => {
 			values.xinputAuthType = parseInt(values.xinputAuthType);
 		if (!!values.ps4ControllerIDMode)
 			values.ps4ControllerIDMode = parseInt(values.ps4ControllerIDMode);
-		if (!!values.inputDeviceType) values.inputDeviceType = parseInt(values.inputDeviceType);
+		if (!!values.inputDeviceType)
+			values.inputDeviceType = parseInt(values.inputDeviceType);
 
 		setButtonLabels({
 			swapTpShareLabels:
@@ -571,9 +525,13 @@ export default function SettingsPage() {
 	const fetchProfiles = useProfilesStore((state) => state.fetchProfiles);
 	const profiles = useProfilesStore((state) => state.profiles);
 
+	const { fetchBootModeOptions } = useBootModeStoreActions();
+	const gpioBootModeMappingEnabled = useBootModeStore((state) => state.enabled);
+
 	useEffect(() => {
 		fetchProfiles();
 		updatePeripherals();
+		fetchBootModeOptions();
 	}, []);
 
 	const [saveMessage, setSaveMessage] = useState('');
@@ -732,23 +690,38 @@ export default function SettingsPage() {
 		setKeyMappings(newMappings);
 	};
 
-	const generateDeviceTypeSelection = (values, errors, setFieldValue, handleChange) => {
+	const generateDeviceTypeSelection = (
+		values,
+		errors,
+		setFieldValue,
+		handleChange,
+	) => {
 		let mode = INPUT_MODES.find((i) => i.value == values.inputMode);
-		let options = Object.keys(InputModeDeviceType).filter(key => isNaN(Number(key))).map((o) => ({
-			key: o,
-			value: Number(InputModeDeviceType[o]),
-		}));
+		let options = Object.keys(InputModeDeviceType)
+			.filter((key) => isNaN(Number(key)))
+			.map((o) => ({
+				key: o,
+				value: Number(InputModeDeviceType[o]),
+			}));
 
 		if (mode) {
-			options = options.filter((o) => mode.deviceTypes?.indexOf(o.value) !== -1).sort((a,b) => mode.deviceTypes?.findIndex(o => o === a.value) - mode.deviceTypes?.findIndex(o => o === b.value))
+			options = options
+				.filter((o) => mode.deviceTypes?.indexOf(o.value) !== -1)
+				.sort(
+					(a, b) =>
+						mode.deviceTypes?.findIndex((o) => o === a.value) -
+						mode.deviceTypes?.findIndex((o) => o === b.value),
+				);
 		} else {
-			options = []
+			options = [];
 		}
 
-		return (mode && mode.deviceTypes?.length > 1 ? 
+		return mode && mode.deviceTypes?.length > 1 ? (
 			<Row className="mb-3">
 				<Col sm={4}>
-					<Form.Label>{t('SettingsPage:input-mode-device-type-label')}</Form.Label>
+					<Form.Label>
+						{t('SettingsPage:input-mode-device-type-label')}
+					</Form.Label>
 					<Form.Select
 						name="inputDeviceType"
 						className="form-select-sm"
@@ -767,7 +740,9 @@ export default function SettingsPage() {
 					</Form.Select>
 				</Col>
 			</Row>
-		: '');
+		) : (
+			''
+		);
 	};
 
 	const generateAuthSelection = (
@@ -1106,9 +1081,11 @@ export default function SettingsPage() {
 							checked={Boolean(values.usbDescOverride)}
 							onChange={(e) => {
 								setFieldValue('usbDescOverride', e.target.checked ? 1 : 0);
-								setFieldValue('usbOverrideID', e.target.checked ? values.usbOverrideID : 0);
-								}
-							}
+								setFieldValue(
+									'usbOverrideID',
+									e.target.checked ? values.usbOverrideID : 0,
+								);
+							}}
 						/>
 					</Col>
 				</Row>
@@ -1278,6 +1255,27 @@ export default function SettingsPage() {
 		);
 	};
 
+	const p5generalModeSpecifics = (
+		values,
+		errors,
+		setFieldValue,
+		handleChange,
+	) => {
+		return (
+			<div className="row mb-3">
+				<Row className="mb-3">
+					<Col sm={10}>
+						<Trans
+							ns="SettingsPage"
+							i18nKey="p5general-mode-text"
+							components={{ span: <span className="text-success" /> }}
+						/>
+					</Col>
+				</Row>
+			</div>
+		);
+	};
+
 	const genericHidModeSpecifics = (
 		values,
 		errors,
@@ -1322,6 +1320,13 @@ export default function SettingsPage() {
 					setFieldValue,
 					handleChange,
 					inputMode,
+				);
+			case 'input-mode-options.p5general':
+				return p5generalModeSpecifics(
+					values,
+					errors,
+					setFieldValue,
+					handleChange,
 				);
 			case 'input-mode-options.generic':
 				return genericHidModeSpecifics(
@@ -1737,61 +1742,79 @@ export default function SettingsPage() {
 												<Section
 													title={t('SettingsPage:boot-input-mode-label')}
 												>
-													<Row sm={3}>
-														{INPUT_MODES_BINDS.map((mode, index) => (
-															<Form.Group
-																className="mb-3 col-sm-6"
-																key={`input-mode-${index}`}
-															>
-																<Form.Label>
-																	{mode.value in currentButtonLabels
-																		? currentButtonLabels[mode.value]
-																		: mode.value}
-																</Form.Label>
-																<Col sm={10}>
-																	<Form.Select
-																		name={`inputMode${mode.value}`}
-																		className="form-select-sm"
-																		value={values[`inputMode${mode.value}`]}
-																		onChange={handleChange}
-																		isInvalid={errors[`inputMode${mode.value}`]}
+													{gpioBootModeMappingEnabled ? (
+														<p>
+															To use the new GPIO-based mapping, go to the{' '}
+															<NavLink to="/boot-mode-mapping">
+																Boot Mode Configuration
+															</NavLink>{' '}
+															page.
+														</p>
+													) : (
+														<div>
+															<Row sm={3}>
+																{INPUT_MODES_BINDS.map((mode, index) => (
+																	<Form.Group
+																		className="mb-3 col-sm-6"
+																		key={`input-mode-${index}`}
 																	>
-																		{translatedInputModeGroups.map((o, i) => (
-																			<optgroup
-																				label={o.label}
-																				key={`optgroup-${o.label}-${i}`}
+																		<Form.Label>
+																			{mode.value in currentButtonLabels
+																				? currentButtonLabels[mode.value]
+																				: mode.value}
+																		</Form.Label>
+																		<Col sm={10}>
+																			<Form.Select
+																				name={`inputMode${mode.value}`}
+																				className="form-select-sm"
+																				value={values[`inputMode${mode.value}`]}
+																				onChange={handleChange}
+																				isInvalid={
+																					errors[`inputMode${mode.value}`]
+																				}
 																			>
-																				{translatedInputBootModes
-																					.filter(
-																						({ group }) => group == o.group,
-																					)
-																					.map((o, i) => (
-																						<option
-																							key={`button-inputMode-${mode.value
-																								.toString()
-																								.toLowerCase()}-option-${i}`}
-																							value={o.value}
-																							disabled={o.disabled}
+																				{translatedInputModeGroups.map(
+																					(o, i) => (
+																						<optgroup
+																							label={o.label}
+																							key={`optgroup-${o.label}-${i}`}
 																						>
-																							{o.label}
-																							{o.disabled && o.reason != ''
-																								? ' (' + o.reason + ')'
-																								: ''}
-																						</option>
-																					))}
-																			</optgroup>
-																		))}
-																	</Form.Select>
-																	<Form.Control.Feedback type="invalid">
-																		{errors[`inputMode${mode.value}`]}
-																	</Form.Control.Feedback>
-																</Col>
-															</Form.Group>
-														))}
-													</Row>
-													<Button type="submit">
-														{t('Common:button-save-label')}
-													</Button>
+																							{translatedInputBootModes
+																								.filter(
+																									({ group }) =>
+																										group == o.group,
+																								)
+																								.map((o, i) => (
+																									<option
+																										key={`button-inputMode-${mode.value
+																											.toString()
+																											.toLowerCase()}-option-${i}`}
+																										value={o.value}
+																										disabled={o.disabled}
+																									>
+																										{o.label}
+																										{o.disabled &&
+																										o.reason != ''
+																											? ' (' + o.reason + ')'
+																											: ''}
+																									</option>
+																								))}
+																						</optgroup>
+																					),
+																				)}
+																			</Form.Select>
+																			<Form.Control.Feedback type="invalid">
+																				{errors[`inputMode${mode.value}`]}
+																			</Form.Control.Feedback>
+																		</Col>
+																	</Form.Group>
+																))}
+															</Row>
+															<Button type="submit">
+																{t('Common:button-save-label')}
+															</Button>
+														</div>
+													)}
 													{saveMessage ? (
 														<span className="alert">{saveMessage}</span>
 													) : null}
@@ -1801,181 +1824,193 @@ export default function SettingsPage() {
 												<Section
 													title={t('SettingsPage:hotkey-settings-label')}
 												>
-													<div className="mb-3">
-														<Trans
-															ns="SettingsPage"
-															i18nKey="hotkey-settings-sub-header"
-															components={{
-																link_pinmap: <NavLink to="/pin-mapping" />,
-															}}
-														/>
-													</div>
-													{values.fnButtonPin === -1 && (
-														<div className="alert alert-warning">
-															{t('SettingsPage:hotkey-settings-warning')}
+													<div hidden={Boolean(values.lockHotkeys)}>
+														<div className="mb-3">
+															<Trans
+																ns="SettingsPage"
+																i18nKey="hotkey-settings-sub-header"
+																components={{
+																	link_pinmap: <NavLink to="/pin-mapping" />,
+																}}
+															/>
 														</div>
-													)}
-													<div
-														id="Hotkeys"
-														hidden={values.lockHotkeys}
-														className="d-grid gap-2"
-													>
-														{Object.keys(hotkeyFields).map((o, i) => (
-															<Form.Group
-																key={`hotkey-${i}-base`}
-																className={`row row-gap-2 align-items-center gx-2`}
-															>
-																<Col
-																	sm="auto"
-																	className="d-flex align-items-center"
+														{values.fnButtonPin === -1 && (
+															<div className="alert alert-warning">
+																{t('SettingsPage:hotkey-settings-warning')}
+															</div>
+														)}
+														<div id="Hotkeys" className={`d-grid gap-2`}>
+															{Object.keys(hotkeyFields).map((o, i) => (
+																<Form.Group
+																	key={`hotkey-${i}-base`}
+																	className={`row row-gap-2 align-items-center gx-2`}
 																>
-																	<Form.Check
-																		name={`${o}.auxMask`}
-																		label="Fn"
-																		type="switch"
-																		className="text my-auto"
-																		disabled={values.fnButtonPin === -1}
-																		checked={values[o] && !!values[o]?.auxMask}
-																		onChange={(e) => {
-																			setFieldValue(
-																				`${o}.auxMask`,
-																				e.target.checked ? 32768 : 0,
-																			);
-																		}}
-																		isInvalid={errors[o] || errors[o]?.auxMask}
-																	/>
-																	<Form.Control.Feedback type="invalid">
-																		{errors[o] && errors[o]?.action}
-																	</Form.Control.Feedback>
-																</Col>
-																<Col sm="auto">+</Col>
-																{BUTTON_MASKS_OPTIONS.map((mask) =>
-																	values[o] &&
-																	values[o]?.buttonsMask & mask.value ? (
-																		<>
-																			<Col sm="auto">
-																				<Form.Select
-																					name={`${o}.buttonsMask`}
-																					className="form-select-sm sm-1"
-																					value={
-																						values[o] &&
-																						values[o]?.buttonsMask & mask.value
-																					}
-																					error={
-																						errors[o] || errors[o]?.buttonsMask
-																					}
-																					isInvalid={
-																						errors[o] || errors[o]?.buttonsMask
-																					}
-																					onChange={(e) => {
-																						setFieldValue(
-																							`${o}.buttonsMask`,
-																							(values[o] &&
-																								values[o]?.buttonsMask ^
-																									mask.value) | e.target.value,
-																						);
-																					}}
-																				>
-																					{BUTTON_MASKS_OPTIONS.map((o, i2) => (
-																						<option
-																							key={`hotkey-${i}-button${i2}`}
-																							value={o.value}
-																						>
-																							{o.label in currentButtonLabels
-																								? currentButtonLabels[o.label]
-																								: o.label}
-																						</option>
-																					))}
-																				</Form.Select>
-																			</Col>
-																			<Col sm="auto">+</Col>
-																		</>
-																	) : (
-																		<></>
-																	),
-																)}
-																<Col sm="auto">
-																	<Form.Select
-																		name={`${o}.buttonsMask`}
-																		className="form-select-sm sm-1"
-																		value={0}
-																		onChange={(e) => {
-																			setFieldValue(
-																				`${o}.buttonsMask`,
-																				(values[o] && values[o]?.buttonsMask) |
-																					e.target.value,
-																			);
-																		}}
+																	<Col
+																		sm="auto"
+																		className="d-flex align-items-center"
 																	>
-																		{BUTTON_MASKS_OPTIONS.map((o, i2) => (
-																			<option
-																				key={`hotkey-${i}-buttonZero-${i2}`}
-																				value={o.value}
-																			>
-																				{o.label in currentButtonLabels
-																					? currentButtonLabels[o.label]
-																					: o.label}
-																			</option>
-																		))}
-																	</Form.Select>
-																</Col>
-																<Col sm="auto">=</Col>
-																<Col sm="auto">
-																	<Form.Select
-																		name={`${o}.action`}
-																		className="form-select-sm"
-																		value={values[o] && values[o]?.action}
-																		onChange={handleChange}
-																		isInvalid={errors[o] && errors[o]?.action}
-																	>
-																		{translatedHotkeyActions.map((o, i) => (
-																			<option
-																				key={`hotkey-action-${i}`}
-																				value={o.value}
-																			>
-																				{o.label}
-																			</option>
-																		))}
-																	</Form.Select>
-																	<Form.Control.Feedback type="invalid">
-																		{errors[o] && errors[o]?.action}
-																	</Form.Control.Feedback>
-																</Col>
-																{Boolean(
-																	values[o]?.buttonsMask || values[o]?.action,
-																) && (
-																	<Col>
-																		<Button
-																			size="sm"
-																			onClick={() => {
-																				setFieldValue(`${o}.action`, 0);
-																				setFieldValue(`${o}.buttonsMask`, 0);
+																		<Form.Check
+																			name={`${o}.auxMask`}
+																			label="Fn"
+																			type="switch"
+																			className="text my-auto"
+																			disabled={values.fnButtonPin === -1}
+																			checked={
+																				values[o] && !!values[o]?.auxMask
+																			}
+																			onChange={(e) => {
+																				setFieldValue(
+																					`${o}.auxMask`,
+																					e.target.checked ? 32768 : 0,
+																				);
+																			}}
+																			isInvalid={
+																				errors[o] || errors[o]?.auxMask
+																			}
+																		/>
+																		<Form.Control.Feedback type="invalid">
+																			{errors[o] && errors[o]?.action}
+																		</Form.Control.Feedback>
+																	</Col>
+																	<Col sm="auto">+</Col>
+																	{BUTTON_MASKS_OPTIONS.map((mask) =>
+																		values[o] &&
+																		values[o]?.buttonsMask & mask.value ? (
+																			<>
+																				<Col sm="auto">
+																					<Form.Select
+																						name={`${o}.buttonsMask`}
+																						className="form-select-sm sm-1"
+																						value={
+																							values[o] &&
+																							values[o]?.buttonsMask &
+																								mask.value
+																						}
+																						error={
+																							errors[o] ||
+																							errors[o]?.buttonsMask
+																						}
+																						isInvalid={
+																							errors[o] ||
+																							errors[o]?.buttonsMask
+																						}
+																						onChange={(e) => {
+																							setFieldValue(
+																								`${o}.buttonsMask`,
+																								(values[o] &&
+																									values[o]?.buttonsMask ^
+																										mask.value) |
+																									e.target.value,
+																							);
+																						}}
+																					>
+																						{BUTTON_MASKS_OPTIONS.map(
+																							(o, i2) => (
+																								<option
+																									key={`hotkey-${i}-button${i2}`}
+																									value={o.value}
+																								>
+																									{o.label in
+																									currentButtonLabels
+																										? currentButtonLabels[
+																												o.label
+																											]
+																										: o.label}
+																								</option>
+																							),
+																						)}
+																					</Form.Select>
+																				</Col>
+																				<Col sm="auto">+</Col>
+																			</>
+																		) : (
+																			<></>
+																		),
+																	)}
+																	<Col sm="auto">
+																		<Form.Select
+																			name={`${o}.buttonsMask`}
+																			className="form-select-sm sm-1"
+																			value={0}
+																			onChange={(e) => {
+																				setFieldValue(
+																					`${o}.buttonsMask`,
+																					(values[o] &&
+																						values[o]?.buttonsMask) |
+																						e.target.value,
+																				);
 																			}}
 																		>
-																			{'✕'}
-																		</Button>
+																			{BUTTON_MASKS_OPTIONS.map((o, i2) => (
+																				<option
+																					key={`hotkey-${i}-buttonZero-${i2}`}
+																					value={o.value}
+																				>
+																					{o.label in currentButtonLabels
+																						? currentButtonLabels[o.label]
+																						: o.label}
+																				</option>
+																			))}
+																		</Form.Select>
 																	</Col>
-																)}
-																<Form.Control.Feedback
-																	type="invalid"
-																	className={errors[o] ? 'd-block' : ''}
-																>
-																	{errors[o]}
-																</Form.Control.Feedback>
-															</Form.Group>
-														))}
+																	<Col sm="auto">=</Col>
+																	<Col sm="auto">
+																		<Form.Select
+																			name={`${o}.action`}
+																			className="form-select-sm"
+																			value={values[o] && values[o]?.action}
+																			onChange={handleChange}
+																			isInvalid={errors[o] && errors[o]?.action}
+																		>
+																			{translatedHotkeyActions.map((o, i) => (
+																				<option
+																					key={`hotkey-action-${i}`}
+																					value={o.value}
+																				>
+																					{o.label}
+																				</option>
+																			))}
+																		</Form.Select>
+																		<Form.Control.Feedback type="invalid">
+																			{errors[o] && errors[o]?.action}
+																		</Form.Control.Feedback>
+																	</Col>
+																	{Boolean(
+																		values[o]?.buttonsMask || values[o]?.action,
+																	) && (
+																		<Col>
+																			<Button
+																				size="sm"
+																				onClick={() => {
+																					setFieldValue(`${o}.action`, 0);
+																					setFieldValue(`${o}.buttonsMask`, 0);
+																				}}
+																			>
+																				{'✕'}
+																			</Button>
+																		</Col>
+																	)}
+																	<Form.Control.Feedback
+																		type="invalid"
+																		className={errors[o] ? 'd-block' : ''}
+																	>
+																		{errors[o]}
+																	</Form.Control.Feedback>
+																</Form.Group>
+															))}
+														</div>
 													</div>
 													<Form.Check
-														label={t('SettingsPage:lock-hotkeys-label')}
+														label={t('Common:switch-enabled')}
 														type="switch"
 														id="LockHotkeys"
 														reverse
 														isInvalid={false}
-														checked={Boolean(values.lockHotkeys)}
+														checked={!values.lockHotkeys}
 														onChange={(e) => {
 															setFieldValue(
 																'lockHotkeys',
-																e.target.checked ? 1 : 0,
+																e.target.checked ? 0 : 1,
 															);
 														}}
 													/>

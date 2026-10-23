@@ -3,19 +3,31 @@
 #include "buttonlayouts.h"
 #include "enums.pb.h"
 
+#ifdef DEFAULT_BOARD_LAYOUT_A_NAME
+#define STRINGIFY(x) #x
+#define TOSTRING(x) STRINGIFY(x)
+#endif
+
 LayoutManager::LayoutList LayoutManager::getLayoutA() {
     const DisplayOptions& options = Storage::getInstance().getDisplayOptions();
     uint16_t layoutLeft = options.buttonLayout;
     if (options.buttonLayoutOrientation != BUTTON_ORIENTATION_DEFAULT) {
         uint16_t layoutRight = options.buttonLayoutRight;
         LayoutManager::LayoutList rightLayout = getRightLayout(layoutRight);
+        if (rightLayout.empty() && layoutRight >= BUTTON_LAYOUT_BOARD_DEFINED_ALT0_B && layoutRight <= BUTTON_LAYOUT_BOARD_DEFINED_ALT7_B) {
+            rightLayout = drawBoardDefinedB();
+        }
         if (options.buttonLayoutOrientation == BUTTON_ORIENTATION_SWITCHED) {
             return adjustByOffset(rightLayout, -64);
         } else {
             return adjustByOffset(flipHorizontally(rightLayout, 64, 0, 128, 0), -64);
         }
     } else {
-        return getLeftLayout(layoutLeft);
+        LayoutList layout = getLeftLayout(layoutLeft);
+        if (layout.empty() && layoutLeft >= BUTTON_LAYOUT_BOARD_DEFINED_ALT0_A && layoutLeft <= BUTTON_LAYOUT_BOARD_DEFINED_ALT7_A) {
+            return drawBoardDefinedA();
+        }
+        return layout;
     }
 }
 
@@ -25,13 +37,19 @@ LayoutManager::LayoutList LayoutManager::getLayoutB() {
     if (options.buttonLayoutOrientation != BUTTON_ORIENTATION_DEFAULT) {
         uint16_t layoutLeft = options.buttonLayout;
         LayoutManager::LayoutList leftLayout = getLeftLayout(layoutLeft);
+        if (leftLayout.empty() && layoutLeft >= BUTTON_LAYOUT_BOARD_DEFINED_ALT0_A && layoutLeft <= BUTTON_LAYOUT_BOARD_DEFINED_ALT7_A) {
+            leftLayout = drawBoardDefinedA();
+        }
         if (options.buttonLayoutOrientation == BUTTON_ORIENTATION_SWITCHED) {
             return adjustByOffset(leftLayout, 64);
         } else {
             return adjustByOffset(flipHorizontally(leftLayout, 0, 0, 64, 0), 64);
         }
     } else {
-        return getRightLayout(layoutRight);
+        LayoutList layout = getRightLayout(layoutRight);
+        if (layout.empty() && layoutRight >= BUTTON_LAYOUT_BOARD_DEFINED_ALT0_B && layoutRight <= BUTTON_LAYOUT_BOARD_DEFINED_ALT7_B)
+            return drawBoardDefinedB();
+        return layout;
     }
 }
 
@@ -46,21 +64,155 @@ std::string LayoutManager::getLayoutBName() {
 }
 
 std::string LayoutManager::getButtonLayoutName(ButtonLayout layout) {
-    #define ENUM_CASE(name, value) case name: return #name;
     switch (layout) {
-        ButtonLayout_VALUELIST(ENUM_CASE)
-        default: return "BUTTON_LAYOUT_UNKNOWN";
+        case BUTTON_LAYOUT_BOARD_DEFINED_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_NAME
+            return DEFAULT_BOARD_LAYOUT_A_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_A";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT0_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_ALT0_NAME
+            return DEFAULT_BOARD_LAYOUT_A_ALT0_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT0_A";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT1_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_ALT1_NAME
+            return DEFAULT_BOARD_LAYOUT_A_ALT1_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT1_A";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT2_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_ALT2_NAME
+            return DEFAULT_BOARD_LAYOUT_A_ALT2_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT2_A";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT3_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_ALT3_NAME
+            return DEFAULT_BOARD_LAYOUT_A_ALT3_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT3_A";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT4_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_ALT4_NAME
+            return DEFAULT_BOARD_LAYOUT_A_ALT4_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT4_A";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT5_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_ALT5_NAME
+            return DEFAULT_BOARD_LAYOUT_A_ALT5_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT5_A";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT6_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_ALT6_NAME
+            return DEFAULT_BOARD_LAYOUT_A_ALT6_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT6_A";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT7_A: {
+            #ifdef DEFAULT_BOARD_LAYOUT_A_ALT7_NAME
+            return DEFAULT_BOARD_LAYOUT_A_ALT7_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT7_A";
+            #endif
+        }
+        default: {
+            #define ENUM_CASE(name, value) case name: return #name;
+            switch (layout) {
+                ButtonLayout_VALUELIST(ENUM_CASE)
+                default: return "BUTTON_LAYOUT_UNKNOWN";
+            }
+            #undef ENUM_CASE
+        }
     }
-    #undef ENUM_CASE
 }
 
 std::string LayoutManager::getButtonLayoutRightName(ButtonLayoutRight layout) {
-    #define ENUM_CASE(name, value) case name: return #name;
     switch (layout) {
-        ButtonLayoutRight_VALUELIST(ENUM_CASE)
-        default: return "BUTTON_LAYOUT_UNKNOWN";
+        case BUTTON_LAYOUT_BOARD_DEFINED_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_NAME
+            return DEFAULT_BOARD_LAYOUT_B_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_B";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT0_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_ALT0_NAME
+            return DEFAULT_BOARD_LAYOUT_B_ALT0_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT0_B";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT1_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_ALT1_NAME
+            return DEFAULT_BOARD_LAYOUT_B_ALT1_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT1_B";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT2_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_ALT2_NAME
+            return DEFAULT_BOARD_LAYOUT_B_ALT2_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT2_B";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT3_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_ALT3_NAME
+            return DEFAULT_BOARD_LAYOUT_B_ALT3_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT3_B";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT4_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_ALT4_NAME
+            return DEFAULT_BOARD_LAYOUT_B_ALT4_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT4_B";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT5_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_ALT5_NAME
+            return DEFAULT_BOARD_LAYOUT_B_ALT5_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT5_B";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT6_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_ALT6_NAME
+            return DEFAULT_BOARD_LAYOUT_B_ALT6_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT6_B";
+            #endif
+        }
+        case BUTTON_LAYOUT_BOARD_DEFINED_ALT7_B: {
+            #ifdef DEFAULT_BOARD_LAYOUT_B_ALT7_NAME
+            return DEFAULT_BOARD_LAYOUT_B_ALT7_NAME;
+            #else
+            return "BUTTON_LAYOUT_BOARD_DEFINED_ALT7_B";
+            #endif
+        }
+        default: {
+            #define ENUM_CASE(name, value) case name: return #name;
+            switch (layout) {
+                ButtonLayoutRight_VALUELIST(ENUM_CASE)
+                default: return "BUTTON_LAYOUT_UNKNOWN";
+            }
+            #undef ENUM_CASE
+        }
     }
-    #undef ENUM_CASE
 }
 
 LayoutManager::LayoutList LayoutManager::getLeftLayout(uint16_t index) {
@@ -154,7 +306,9 @@ LayoutManager::LayoutList LayoutManager::getLeftLayout(uint16_t index) {
         case BUTTON_LAYOUT_BOARD_DEFINED_ALT6_A:
             return drawBoardDefinedAlt6A();   
         case BUTTON_LAYOUT_BOARD_DEFINED_ALT7_A:
-            return drawBoardDefinedAlt7A();    
+            return drawBoardDefinedAlt7A();
+        case BUTTON_LAYOUT_CUSTOM_DEFINED_A:
+            return drawCustomDefinedA();
         default:
             break;
     }
@@ -263,6 +417,8 @@ LayoutManager::LayoutList LayoutManager::getRightLayout(uint16_t index) {
             return this->drawBoardDefinedAlt6B();
         case BUTTON_LAYOUT_BOARD_DEFINED_ALT7_B:
             return this->drawBoardDefinedAlt7B();
+        case BUTTON_LAYOUT_CUSTOM_DEFINED_B:
+            return drawCustomDefinedB();
         default:
             break;
     }
@@ -270,11 +426,76 @@ LayoutManager::LayoutList LayoutManager::getRightLayout(uint16_t index) {
     return {};
 }
 
+LayoutManager::LayoutList LayoutManager::drawCustomDefined(const uint8_t* bytes, uint16_t size) {
+    LayoutList layout;
+    const uint16_t elementSize = CUSTOM_LAYOUT_ELEMENT_BYTES;
+    uint16_t count = size / elementSize;
+    for (uint16_t i = 0; i < count; i++) {
+        const uint8_t* p = bytes + (i * elementSize);
+        uint16_t values[12] = {
+            p[0], p[1], p[2], p[3], p[4],
+            (uint16_t)(p[5] & 0x01), (uint16_t)((p[5] >> 1) & 0x03),
+            (uint16_t)(p[6] | (p[7] << 8)),
+            (uint16_t)((p[5] >> 3) & 0x07),
+            (uint16_t)(p[8] | (p[9] << 8)),
+            (uint16_t)(p[10] | (p[11] << 8)),
+            (uint16_t)((p[5] >> 6) & 0x01)
+        };
+        uint16_t value = values[7];
+        bool drawable = false;
+        switch (values[0]) {
+            case GP_ELEMENT_BTN_BUTTON:
+            case GP_ELEMENT_DIR_BUTTON:
+            case GP_ELEMENT_LEVER:
+            case GP_ELEMENT_SHAPE:
+                drawable = true;
+                break;
+            case GP_ELEMENT_PIN_BUTTON:
+                drawable = (value < NUM_BANK0_GPIOS);
+                break;
+            case GP_ELEMENT_HE_BUTTON:
+                drawable = (value < 32);
+                break;
+            default:
+                break;
+        }
+        if (values[0] != GP_ELEMENT_LEVER) {
+            if (values[8] > GP_SHAPE_PILL)
+                drawable = false;
+            if (values[8] == GP_SHAPE_POLYGON && (values[4] < 1 || values[4] > 32))
+                drawable = false;
+            if ((values[8] == GP_SHAPE_ARC || values[8] == GP_SHAPE_POLYGON) && (values[1] < values[3] || values[2] < values[3]))
+                drawable = false;
+        }
+        if (values[9] > 720 || values[10] > 720)
+            drawable = false;
+        if (!drawable)
+            continue;
+        layout.push_back({(GPElement)values[0], {
+            values[1], values[2], values[3], values[4],
+            values[5], values[6], values[7], values[8],
+            values[9], values[10], values[11]
+        }});
+    }
+    return layout;
+}
+
+LayoutManager::LayoutList LayoutManager::drawCustomDefinedA() {
+    const DisplayOptions& options = Storage::getInstance().getDisplayOptions();
+    return drawCustomDefined(options.customLayoutA.bytes, options.customLayoutA.size);
+}
+
+LayoutManager::LayoutList LayoutManager::drawCustomDefinedB() {
+    const DisplayOptions& options = Storage::getInstance().getDisplayOptions();
+    return drawCustomDefined(options.customLayoutB.bytes, options.customLayoutB.size);
+}
+
 LayoutManager::LayoutList LayoutManager::drawButtonLayoutLeft()
 {
     const DisplayOptions& options = Storage::getInstance().getDisplayOptions();
     ButtonLayoutCustomOptions buttonLayoutCustomOptions = options.buttonLayoutCustomOptions;
     ButtonLayoutParamsLeft leftOptions = buttonLayoutCustomOptions.paramsLeft;
+    if (leftOptions.layout == BUTTON_LAYOUT_CUSTOMA) return {};
     return adjustByCustomSettings(getLeftLayout(leftOptions.layout), leftOptions.common);
 }
 
@@ -283,6 +504,7 @@ LayoutManager::LayoutList LayoutManager::drawButtonLayoutRight()
     const DisplayOptions& options = Storage::getInstance().getDisplayOptions();
     ButtonLayoutCustomOptions buttonLayoutCustomOptions = options.buttonLayoutCustomOptions;
     ButtonLayoutParamsRight rightOptions = buttonLayoutCustomOptions.paramsRight;
+    if (rightOptions.layout == BUTTON_LAYOUT_CUSTOMB) return {};
     return adjustByCustomSettings(getRightLayout(rightOptions.layout), rightOptions.common, 64);
 }
 
@@ -295,7 +517,7 @@ LayoutManager::LayoutList LayoutManager::adjustByCustomSettings(LayoutManager::L
         int32_t offsetX = customX-startX;
         int32_t offsetY = customY-startY;
         for (uint16_t elementCtr = 0; elementCtr < layout.size(); elementCtr++) {
-            if (layout[elementCtr].elementType == GP_ELEMENT_BTN_BUTTON) {
+            if ((layout[elementCtr].elementType == GP_ELEMENT_BTN_BUTTON) || (layout[elementCtr].elementType == GP_ELEMENT_HE_BUTTON)) {
                 layout[elementCtr].parameters.x1 += originX+(offsetX+common.buttonPadding);
                 layout[elementCtr].parameters.y1 += originY+(offsetY+common.buttonPadding);
             } else {
@@ -306,7 +528,8 @@ LayoutManager::LayoutList LayoutManager::adjustByCustomSettings(LayoutManager::L
             if (((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_ELLIPSE) || ((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_POLYGON)) {
                 // radius
                 layout[elementCtr].parameters.x2 = common.buttonRadius;
-                layout[elementCtr].parameters.y2 = common.buttonRadius;
+                if ((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_ELLIPSE)
+                    layout[elementCtr].parameters.y2 = common.buttonRadius;
             }
         }
     }
@@ -320,7 +543,7 @@ LayoutManager::LayoutList LayoutManager::adjustByOffset(LayoutManager::LayoutLis
 
         for (uint16_t elementCtr = 0; elementCtr < layout.size(); elementCtr++) {
             int16_t newX = layout[elementCtr].parameters.x1 + originX;
-            if (((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_ELLIPSE) || ((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_POLYGON)) {
+            if (((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_ELLIPSE) || ((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_POLYGON) || ((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_ARC)) {
                 newX = (layout[elementCtr].parameters.x1-(layout[elementCtr].parameters.x2)) + originX;
             } else if ((GPShape_Type)layout[elementCtr].parameters.shape == GP_SHAPE_SQUARE) {
                 if (originX > 0) newX = layout[elementCtr].parameters.x2 + originX;

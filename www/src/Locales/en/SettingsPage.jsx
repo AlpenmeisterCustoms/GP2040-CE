@@ -16,6 +16,7 @@ export default {
 		keyboard: 'Keyboard',
 		ps4: 'PS4',
 		ps5: 'PS5',
+		p5general: 'P5General',
 		neogeo: 'NEOGEO mini',
 		mdmini: 'Sega Genesis/MegaDrive Mini',
 		pcemini: 'PC Engine/Turbografx 16 Mini',
@@ -24,6 +25,7 @@ export default {
 		psclassic: 'Playstation Classic',
 		xboxoriginal: 'Original Xbox',
 		xbone: 'Xbox One',
+		sinput: 'SInput',
 	},
 	'input-mode-group': {
 		primary: 'Primary Input Modes',
@@ -48,7 +50,7 @@ export default {
 	},
 	'socd-cleaning-mode-label': 'SOCD Cleaning Mode',
 	'socd-cleaning-mode-note':
-		'Note: PS4, PS3, Nintendo Switch, and mini series modes do not support setting SOCD Cleaning to Off and will default to Neutral SOCD Cleaning mode.',
+		'Note: PS4, PS3, Nintendo Switch, Nintendo Switch Pro, and mini series modes do not support setting SOCD Cleaning to Off and will default to Neutral SOCD Cleaning mode.',
 	'socd-cleaning-mode-options': {
 		'up-priority': 'Up Priority',
 		neutral: 'Neutral',
@@ -80,6 +82,8 @@ export default {
 		'<span>INFO:</span> Please ensure USB Peripheral is enabled and a PS5 compatible USB device is plugged in.',
 	'xbone-mode-text':
 		'<span>INFO:</span> Xbox One requires a USB host connection and USB dongle to properly authenticate in Xbox One mode.',
+	'p5general-mode-text':
+		'<span>INFO:</span> Requires a USB host connection and <span>P5General</span> to properly authenticate in PS5 general mode.',
 	'xinput-mode-text':
 		'<span>INFO:</span> XInput mode will work on a retail Xbox 360 console without a dongle. Only select USB if you would like to use an external dongle for authentication.',
 	'hotkey-settings-label': 'Hotkey Settings',
@@ -133,6 +137,8 @@ export default {
 		'load-profile-5': 'Load Profile #5',
 		'load-profile-6': 'Load Profile #6',
 		'reboot-default': 'Reboot GP2040-CE',
+		'reboot-webconfig': 'Reboot GP2040-CE into web-config mode',
+		'reboot-usb': 'Reboot GP2040-CE into BOOTSEL/USB mode',
 		'save-config': 'Save Config',
 		'next-profile': 'Next Profile',
 		'previous-profile': 'Previous Profile',
@@ -146,6 +152,14 @@ export default {
 		'focus-mode-toggle': 'Focus Mode Toggle',
 		'turbo-count-up': 'Turbo Count Up',
 		'turbo-count-down': 'Turbo Count Down',
+		'ls-up': 'Left Stick Up',
+		'ls-down': 'Left Stick Down',
+		'ls-left': 'Left Stick Left',
+		'ls-right': 'Left Stick Right',
+		'rs-up': 'Right Stick Up',
+		'rs-down': 'Right Stick Down',
+		'rs-left': 'Right Stick Left',
+		'rs-right': 'Right Stick Right',
 	},
 	'forced-setup-mode-label': 'Forced Setup Mode',
 	'forced-setup-mode-options': {
@@ -158,7 +172,6 @@ export default {
 	'forced-setup-mode-modal-body':
 		'If you reboot to Controller mode after saving, you will no longer have access to the web-config. Please type "<strong>{{warningCheckText}}</strong>" below to unlock the Save button if you fully acknowledge this and intend it. Clicking on Dismiss will revert this setting which then is to be saved.',
 	'4-way-joystick-mode-label': '4-Way Joystick Mode',
-	'lock-hotkeys-label': 'Lock Hotkeys',
 	'keyboard-mapping-header-text': 'Keyboard Mapping',
 	'keyboard-mapping-sub-header-text':
 		'Use the form below to reconfigure your button-to-key mapping.',
@@ -168,7 +181,7 @@ export default {
 			'DANGER: Invalid USB parameters will cause your input modes to not function!',
 		'product-name': 'Product Name',
 		manufacturer: 'Manufacturer',
-		version: 'Version',
+		version: 'Serial',
 		'physical-warning-danger': '⚡ Override Physical IDs ⚡ ',
 		'product-id': 'Product ID',
 		'vendor-id': 'Vendor ID',
